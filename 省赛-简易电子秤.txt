@@ -1,0 +1,126 @@
+#include<reg51.h>	
+#include"lcd.h"	  
+sbit ADDO=P3^6;
+sbit ADSK=P3^7;
+sbit key1=P3^5;
+
+unsigned long ReadCount(void)
+{
+unsigned long Count;
+unsigned char i;
+ADSK=0;
+Count=0;
+while(ADDO);
+for(i=0;i<24;i++)
+{
+	ADSK=1;
+	Count=Count<<1;
+	ADSK=0;
+	if(ADDO)
+		Count++;
+}
+	ADSK=1;
+	Count=Count^0x800000;
+	ADSK=0;
+	return(Count);
+}
+
+void main(void)
+{
+	unsigned long g,j,t,temp,h,b,a,d=0,e,c;
+	double n;
+	LcdInit();
+	LcdWriteCom(0x80);
+	LcdWriteData('W');
+	LcdWriteData('e');
+	LcdWriteData('l');
+	LcdWriteData('c');
+	LcdWriteData('o');
+	LcdWriteData('m');
+	LcdWriteData('e');
+	Lcd1602_Delay1ms(1000);
+	
+	LcdWriteCom(0x80+0X40);
+//for(c=0;c<10;c++)
+	//{
+		t=ReadCount();
+	//d=d+t;
+	//}
+		//e=d/10;	
+	(long int)h=(t/100);					
+	while(1)
+   {
+		LcdWriteCom(0x80+0X40);
+		g=ReadCount();
+		(long int)a=(g/100);
+		 //for();
+		(long int)h=(t/100);
+		j=h-a;
+		while(j>930000)
+		 {
+		j=0000000;
+		}
+	if(j<300)
+		b=0;
+		if(j>300&&j<620)
+			b=1;
+				if(j>620&&j<980)
+				b=2;
+					if(j>980&&j<1100)
+					b=3;
+						if(j>1100&&j<1500)
+							b=4;
+							if(j>1500)
+								b=5;
+								if(j<=50)
+								 b=6;
+			switch(b)
+			{
+			case 0:n=2.63; break;
+			case 1:n=2.65; break;
+			case 2:n=2.67; break;
+			case 3:n=2.82; break;
+			case 4:n=2.92; break;
+			case 5:n=2.96;  break;
+			case 6:n=2.5;  break;
+				
+			}
+			temp=j*n;
+		
+	LcdWriteCom(0x80);
+//  LcdWriteData('0'+j%100000000/10000000);
+//	LcdWriteData('0'+j%10000000/1000000);
+//	LcdWriteData('0'+j%1000000/100000);			  
+//	LcdWriteData('0'+j%100000/10000);
+//	LcdWriteData('0'+j%10000/1000);
+//	LcdWriteData('0'+j%1000/100);
+//	LcdWriteData('0'+j%100/10);
+//	LcdWriteData('0'+j%10/1);
+	LcdWriteData('W');
+	LcdWriteData('e');
+	LcdWriteData('i');
+  LcdWriteData('g');
+	LcdWriteData('h');
+	LcdWriteData('t');
+	LcdWriteData(':');
+			
+//	LcdWriteData('0'+n);
+	LcdWriteCom(0x80+0X40);
+	LcdWriteData('0'+temp%100000000/10000000);
+	LcdWriteData('0'+temp%10000000/1000000);
+	LcdWriteData('0'+temp%1000000/100000);			  
+	LcdWriteData('0'+temp%100000/10000);
+	LcdWriteData('0'+temp%10000/1000);
+	LcdWriteData('0'+temp%1000/100);
+	LcdWriteData('0'+temp%100/10);
+	LcdWriteData('.');
+	LcdWriteData('0'+temp%10/1);
+	LcdWriteData('g');
+	if(key1==0)
+	{	
+		Lcd1602_Delay1ms(5);
+		if(key1==0)
+		t=g;
+	}
+}
+}
